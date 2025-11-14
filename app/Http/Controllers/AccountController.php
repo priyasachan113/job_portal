@@ -20,7 +20,7 @@ class AccountController extends Controller
     {
         return view('front.account.registration');
     }
-
+///////////
     public function processRegistration(Request $request)
     {
         // dd($request->all());
