@@ -20,7 +20,7 @@ class AccountController extends Controller
     {
         return view('front.account.registration');
     }
-///////////
+    ///////////
     public function processRegistration(Request $request)
     {
         // dd($request->all());
@@ -182,38 +182,40 @@ class AccountController extends Controller
         }
     }
 
-    public function createJob(){
+    public function createJob()
+    {
 
-       $categories =  Category::orderBy('name','ASC')->where('status',1)->get();
+        $categories =  Category::orderBy('name', 'ASC')->where('status', 1)->get();
 
-       $jobTypes = JobType::orderBy('name','ASC')->where('status',1)->get();
+        $jobTypes = JobType::orderBy('name', 'ASC')->where('status', 1)->get();
 
-        return view('front.account.job.create',[
+        return view('front.account.job.create', [
             'categories' => $categories,
 
             'jobTypes' => $jobTypes
         ]);
     }
-    public function saveJob(Request $request){
+    public function saveJob(Request $request)
+    {
 
         $rules = [
             'title' => 'required|min:5|max:200',
             'category' => 'required',
-            'jobType'   =>'required',
+            'jobType'   => 'required',
             'vacancy'  => 'required|integer',
             'location'  => 'required|max:50',
             'description'  => 'required',
             'company_name' => 'required|min:3|max:75'
         ];
 
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->passes()){
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->passes()) {
 
             // dd($request->all());
             $job = new Job();
             $job->title = $request->title;
             $job->category_id  = $request->category;
-            $job->job_type_id  = $request->jobType ;
+            $job->job_type_id  = $request->jobType;
             $job->user_id  = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
@@ -228,16 +230,15 @@ class AccountController extends Controller
             $job->company_location = $request->company_location;
             $job->company_website = $request->company_website;
             $job->save();
-            
 
-            session()->flash('success','Job added successfully.');
+
+            session()->flash('success', 'Job added successfully.');
 
             return response()->json([
-                'status' =>true,
+                'status' => true,
                 'errors' => []
             ]);
-
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()
@@ -245,6 +246,10 @@ class AccountController extends Controller
         }
     }
     public function myJobs(){
-        return view('front.account.job.my-jobs');
+        $jobs = Job::where('user_id', Auth::user()->id)->with('jobType')->paginate(5);
+        // dd($jobs);
+        return view('front.account.job.my-jobs', [
+            'jobs' => $jobs
+        ]);
     }
 }
