@@ -106,6 +106,8 @@
                     data: {jobId: jobId},
                     dataType: 'json',
                     success: function(response){
+                        console.log(response);
+                        
                         window.location.href='{{ route("account.myJobs") }}';
                     }
                 });
