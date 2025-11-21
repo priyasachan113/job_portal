@@ -20,7 +20,7 @@
                 <div class="col-lg-9">
                     @include('front.message')
 
-                    <form action="" method="POST" id="createJobForm" name="createJobForm">
+                    <form action="" method="POST" id="editJobForm" name="editJobForm">
                         <div class="card border-0 shadow mb-4 ">
                             <div class="card-body card-form p-4">
                                 <h3 class="fs-4 mb-1">Edit Details</h3>
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
                             <div class="card-footer  p-4">
-                                <button type="submit" class="btn btn-primary">Save Job</button>
+                                <button type="submit" class="btn btn-primary">Update Job</button>
                             </div>
                         </div>
                     </form>
@@ -170,18 +170,16 @@
 
 @section('customJs')
     <script type="text/javascript">
-        $('#createJobForm').submit(function(e) {
+        $('#editJobForm').submit(function(e) {
             e.preventDefault();
-            // alert('fdfs');
-            // console.log($('#createJobForm').serializeArray());
-            // return false;
-
+            $("button[type='submit']").prop('disabled',true);
             $.ajax({
-                url: '{{ route('account.saveJob') }}',
+                url: '{{ route('account.updateJob',$job->id) }}',
                 type: 'post',
                 dataType: 'json',
-                data: $('#createJobForm').serializeArray(),
+                data: $('#editJobForm').serializeArray(),
                 success: function(response) {
+            $("button[type='submit']").prop('disabled',false);
 
                     if (response.status == true) {
 

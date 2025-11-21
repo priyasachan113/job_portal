@@ -31,6 +31,8 @@ Route::group(['prefix' => 'account'], function () {
         Route::post('/save-Job', [AccountController::class, 'saveJob'])->name('account.saveJob');
         Route::get('/my-jobs', [AccountController::class, 'myJobs'])->name('account.myJobs');
         Route::get('/my-jobs/edit/{jobId}', [AccountController::class, 'editJob'])->name('account.editJob');
+        Route::post('/update-Job{jobId}', [AccountController::class, 'updateJob'])->name('account.updateJob');
+        Route::post('/delete-Job', [AccountController::class, 'deleteJob'])->name('account.deleteJob');
 
 
     });

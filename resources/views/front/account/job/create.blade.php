@@ -172,9 +172,7 @@
     <script type="text/javascript">
         $('#createJobForm').submit(function(e) {
             e.preventDefault();
-            // alert('fdfs');
-            // console.log($('#createJobForm').serializeArray());
-            // return false;
+            $("button[type= 'submit']").prop('disabled',true);
 
             $.ajax({
                 url: '{{ route('account.saveJob') }}',
@@ -182,6 +180,7 @@
                 dataType: 'json',
                 data: $('#createJobForm').serializeArray(),
                 success: function(response) {
+            $("button[type= 'submit']").prop('disabled',false);
 
                     if (response.status == true) {
 
