@@ -195,7 +195,8 @@ class AccountController extends Controller
             'jobTypes' => $jobTypes
         ]);
     }
-    public function saveJob(Request $request) {
+    public function saveJob(Request $request)
+    {
 
         $rules = [
             'title' => 'required|min:5|max:200',
@@ -245,39 +246,42 @@ class AccountController extends Controller
         }
     }
 
-    public function myJobs(){
-        $jobs = Job::where('user_id', Auth::user()->id)->with('jobType')->paginate(5);
+    public function myJobs()
+    {
+        $jobs = Job::where('user_id', Auth::user()->id)->with('jobType')->orderBy('created_at','DESC')->paginate(5);
         // dd($jobs);
         return view('front.account.job.my-jobs', [
             'jobs' => $jobs
         ]);
     }
 
-    public function editJob(Request $request, $id){
+    public function editJob(Request $request, $id)
+    {
         // dd($id);
-         $categories =  Category::orderBy('name', 'ASC')->where('status', 1)->get();
+        $categories =  Category::orderBy('name', 'ASC')->where('status', 1)->get();
 
         $jobTypes = JobType::orderBy('name', 'ASC')->where('status', 1)->get();
 
         $job = Job::where([
-            'user_id' =>Auth::user()->id,
+            'user_id' => Auth::user()->id,
             'id' => $id
         ])->first();
 
-        if($job == null){
+        if ($job == null) {
             abort(404);
         }
 
 
-        return view('front.account.job.edit',[
+        return view('front.account.job.edit', [
             'categories' => $categories,
-            'jobTypes' =>$jobTypes,
-            'job' =>$job,
+            'jobTypes' => $jobTypes,
+            'job' => $job,
 
         ]);
     }
-     public function updateJob(Request $request, $id) {
- 
+    public function updateJob(Request $request, $id)
+    {
+
         $rules = [
             'title' => 'required|min:5|max:200',
             'category' => 'required',
@@ -293,7 +297,7 @@ class AccountController extends Controller
 
             // dd($request->all());
             $job = Job::find($id);
-            
+
             $job->title = $request->title;
             $job->category_id  = $request->category;
             $job->job_type_id  = $request->jobType;
@@ -326,23 +330,24 @@ class AccountController extends Controller
             ]);
         }
     }
-    public function deleteJob(Request $request){
+    public function deleteJob(Request $request)
+    {
 
-         $job = Job::where([
+        $job = Job::where([
             'user_id' => Auth::user()->id,
-            'id' => $request-> jobId
+            'id' => $request->jobId
         ])->first();
 
-        if($job ==null){
-            session()->flash('error','Either job deleted or not found.');
+        if ($job == null) {
+            session()->flash('error', 'Either job deleted or not found.');
             return response()->json([
                 'status' => true
             ]);
         }
-        Job::where('id',$request->jobId)->delete();
-            session()->flash('success','Job deleted successfully.');
+        Job::where('id', $request->jobId)->delete();
+        session()->flash('success', 'Job deleted successfully.');
         return response()->json([
-                'status' => true
-            ]);
+            'status' => true
+        ]);
     }
 }
