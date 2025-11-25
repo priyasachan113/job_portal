@@ -94,9 +94,9 @@
                                                             <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
                                                             <span class="ps-1">{{ $Job->JobType->name }}</span>
                                                         </p>
-                                                        <p>Keywords:{{ $Job->keywords }}</p>
+                                                        {{-- <p>Keywords:{{ $Job->keywords }}</p>
                                                         <p>Category:{{ $Job->category->name }}</p>
-                                                        <p>Experience:{{ $Job->experience }}</p>
+                                                        <p>Experience:{{ $Job->experience }}</p> --}}
                                                         @if (!is_null($Job->salary))
                                                             <p class="mb-0">
                                                                 <span class="fw-bolder"><i class="fa fa-usd"></i></span>
@@ -105,7 +105,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="d-grid mt-3">
-                                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Details</a>
+                                                        <a href="{{ route('jobdetail',$Job->id) }}" class="btn btn-primary btn-lg">Details</a>
                                                     </div>
                                                 </div>
                                             </div>
