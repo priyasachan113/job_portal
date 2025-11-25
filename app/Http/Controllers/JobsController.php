@@ -36,24 +36,35 @@ class JobsController extends Controller
             $Jobs = $Jobs->where('category_id', $request->category);
         }
 
+        $JobTypeArray = [];
         // Search using job Type
         if (!empty($request->JobType)) {
+            $JobTypeArray = explode(',', $request->JobType);
 
-            $jobTypeArray = explode(',', $request->JobType);
-
-            $Jobs = $Jobs->whereIn('job_type_id', $jobTypeArray);
+            $Jobs = $Jobs->whereIn('job_type_id', $JobTypeArray);
         }
         // Search using experience
         if (!empty($request->experience)) {
-            $Jobs = $Jobs->where('experience', $request->experience);
+             $Jobs = $Jobs->where('experience', $request->experience);
         }
 
-        $Jobs = $Jobs->with(['JobType', 'category'])->orderBy('created_at', 'DESC')->paginate(9);
+        $Jobs = $Jobs->with(['JobType', 'category']);
+
+        if( $request->sort == '0'){
+            $Jobs = $Jobs->orderBy('created_at', 'ASC');
+
+        }else{
+            $Jobs = $Jobs->orderBy('created_at', 'DESC');
+
+        }
+
+        $Jobs = $Jobs->paginate(9);
 
         return view('front.jobs', [
             'categories' => $categories,
             'JobTypes' => $JobTypes,
             'Jobs' => $Jobs,
+            'JobTypeArray' => $JobTypeArray
         ]);
     }
 }
