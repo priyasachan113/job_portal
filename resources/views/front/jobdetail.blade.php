@@ -147,7 +147,9 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        window.location.href ="{{ url()->current() }}";
+                        console.log(response);
+                        
+                        // window.location.href ="{{ url()->current() }}";
                     }
                 })
 

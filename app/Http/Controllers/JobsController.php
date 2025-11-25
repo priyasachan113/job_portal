@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JobNotificationEmail;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\Job;
 use App\Models\JobApplication;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 
@@ -81,6 +84,7 @@ class JobsController extends Controller
     public function applyJob(Request $request)
     {
         $id = $request->id;
+        dd($id);
 
         $Job = Job::where('id', $id)->first();
 
@@ -130,6 +134,16 @@ class JobsController extends Controller
         $application->employer_id = $employer_id;
         $application->applied_date = now();
         $application->save();
+
+        //Send Notification Email to Employer
+        $employer = User::where('id', $employer_id)->first();
+        $mailData = [
+            'employer' => $employer,
+            'user' => Auth::user(),
+            'Job' => $Job,
+        ];
+dd($mailData);
+        Mail::to($employer->email)->send(new JobNotificationEmail($mailData));
 
         $message = 'You have successfully applied';
 
