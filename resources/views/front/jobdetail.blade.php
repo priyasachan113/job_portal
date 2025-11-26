@@ -77,7 +77,7 @@
                                 <a href="#" class="btn btn-secondary">Save</a>
 
                                 @if (Auth::check())
-                                    <a href="" onclick="applyJob({{ $Job->id }})"class="btn btn-primary">Apply</a>
+                                    <a onclick="applyJob({{ $Job->id }})"class="btn btn-primary">Apply</a>
                                 @else
                                     <a href="javascript:void(0);" class="btn btn-primary disabled">Login to Apply</a>
                                 @endif
@@ -138,6 +138,7 @@
 @section('customJs')
     <script type="text/javascript">
         function applyJob(id) {
+            console.log(id);
             if (confirm("Are you sure you want to apply on this job?")) {
                 $.ajax({
                     url: '{{ route('applyJob') }}',
@@ -148,11 +149,9 @@
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);
-                        
-                        // window.location.href ="{{ url()->current() }}";
+                        window.location.href ="{{ url()->current() }}";
                     }
                 })
-
             }
         }
     </script>

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\Job;
+use App\Models\JobApplication;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -20,7 +21,6 @@ class AccountController extends Controller
     {
         return view('front.account.registration');
     }
-    ///////////
     public function processRegistration(Request $request)
     {
         // dd($request->all());
@@ -53,12 +53,10 @@ class AccountController extends Controller
             ]);
         }
     }
-
     public function login()
     {
         return view('front.account.login');
     }
-
     public function authenticate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -80,7 +78,6 @@ class AccountController extends Controller
                 ->withInput($request->only('email'));
         }
     }
-
     public function profile()
     {
 
@@ -127,13 +124,11 @@ class AccountController extends Controller
             ]);
         }
     }
-
     public function logout()
     {
         Auth::logout();
         return redirect()->route('account.login');
     }
-
     public function updateProfilePic(Request $request)
     {
         // dd($request->all());
@@ -181,14 +176,12 @@ class AccountController extends Controller
             ]);
         }
     }
-
     public function createJob()
     {
 
         $categories =  Category::orderBy('name', 'ASC')->where('status', 1)->get();
 
         $jobTypes = JobType::orderBy('name', 'ASC')->where('status', 1)->get();
-
         return view('front.account.job.create', [
             'categories' => $categories,
 
@@ -245,16 +238,14 @@ class AccountController extends Controller
             ]);
         }
     }
-
     public function myJobs()
     {
-        $jobs = Job::where('user_id', Auth::user()->id)->with('jobType')->orderBy('created_at','DESC')->paginate(5);
+        $jobs = Job::where('user_id', Auth::user()->id)->with('jobType')->orderBy('created_at', 'DESC')->paginate(5);
         // dd($jobs);
         return view('front.account.job.my-jobs', [
             'jobs' => $jobs
         ]);
     }
-
     public function editJob(Request $request, $id)
     {
         // dd($id);
@@ -349,5 +340,34 @@ class AccountController extends Controller
         return response()->json([
             'status' => true
         ]);
+    }
+    public function myJobApplications()
+    {
+        $JobApplications = JobApplication::where('user_id', Auth::user()->id)
+                            ->with('Job', 'Job.jobType','Job.applications')
+                            ->paginate(10);
+
+
+        return view('front.account.job.my-job-applications', [
+            'JobApplications' => $JobApplications
+        ]);
+    }
+    public function removeJob(Request $request)
+    {
+        $JobApplication =  JobApplication::where(['id' => $request->id, 'user_id' => Auth::user()->id])->first();
+
+        if($JobApplication == null){
+            session()->flash('error','Job application not found');
+            return response()->json([
+                'status' => false,
+                
+            ]);
+        }
+        JobApplication::find($request->id)->delete();
+
+        session()->flash('success','Job application removed successfully');
+            return response()->json([
+                'status' => true,
+            ]);
     }
 }
