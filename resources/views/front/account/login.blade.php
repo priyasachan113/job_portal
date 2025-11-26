@@ -28,7 +28,7 @@
                                     @error('email')
                                     <p class="invalid-feedback">{{ $message }}</p>
                                     @enderror
-                            </div>nm8
+                            </div>
                             <div class="mb-3">
                                 <label for="" class="mb-2">Password*</label>
                                 <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror"
