@@ -79,15 +79,23 @@ class JobsController extends Controller
         if ($Job == null) {
             abort(404);
         }
-
+        $count=0;
+        if(Auth::user()){
         $count = SavedJob::where([
             'user_id' => Auth::user()->id,
             'Job_id' => $id
         ])->count();
 
+        }
+        // fetch applicants
+
+        $applications = JobApplication::where('job_id' ,$id)->get();
+
+        dd($applications);
 
         return view('front.jobdetail', ['Job' => $Job, 'count'=> $count]);
     }
+
     public function applyJob(Request $request)
     {
         $id = $request->id;
