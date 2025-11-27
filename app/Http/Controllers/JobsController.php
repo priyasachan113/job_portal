@@ -72,8 +72,7 @@ class JobsController extends Controller
         ]);
     }
     // This method will show job detail page
-    public function detail($id)
-    {
+    public function detail($id){
 
         $Job = Job::where(['id' => $id, 'status' => 1])->with(['jobType', 'category'])->first();
 
@@ -162,7 +161,7 @@ class JobsController extends Controller
         $Job = Job::find($id);
 
         if ($Job == null) {
-            session()->flash('error','Job not found');
+            session()->flash('error', 'Job not found');
             return response()->json([
                 'status' => false,
             ]);
@@ -174,8 +173,8 @@ class JobsController extends Controller
             'Job_id' => $id
         ])->count();
 
-        if($count > 0){
-             session()->flash('error','You already applied on this job');
+        if ($count > 0) {
+            session()->flash('error', 'You already saved this job');
             return response()->json([
                 'status' => false,
             ]);
@@ -183,8 +182,11 @@ class JobsController extends Controller
         $SavedJob = new SavedJob;
         $SavedJob->job_id = $id;
         $SavedJob->user_id = Auth::user()->id;
+        $SavedJob->save();
 
-        $SavedJob-> save();
-
+        session()->flash('success', 'You have successfully saved the job');
+        return response()->json([
+            'status' => true,
+        ]);
     }
 }

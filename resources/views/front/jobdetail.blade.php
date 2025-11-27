@@ -39,8 +39,7 @@
                                 </div>
                                 <div class="jobs_right">
                                     <div class="apply_now">
-                                        <a class="heart_mark" href="#"> <i class="fa fa-heart-o"
-                                                aria-hidden="true"></i></a>
+                                        <a class="heart_mark" href="javascript:void(0);" onclick="saveJob({{ $Job->id }})"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -77,13 +76,11 @@
 
 
                                 @if (Auth::check())
-                                    <a href="#" onclick= "saveJob({{ $Job->id }})"
-                                        class="btn btn-secondary">Save</a>
-
-                                    <a onclick="applyJob({{ $Job->id }})"class="btn btn-primary">Login to Save</a>
+                                    <a href="#" onclick= "saveJob({{ $Job->id }})" class="btn btn-secondary">Save</a>
                                 @else
-                                    <a href="javascript:void(0);" class="btn btn-primary disabled">Login to Apply</a>
+                                    <a href="javascript:void(0);" class="btn btn-secondary disabled">Login to Save</a>
                                 @endif
+
                                 @if (Auth::check())
                                     <a onclick="applyJob({{ $Job->id }})"class="btn btn-primary">Apply</a>
                                 @else
@@ -146,17 +143,14 @@
 @section('customJs')
     <script type="text/javascript">
         function applyJob(id) {
-            console.log(id);
             if (confirm("Are you sure you want to apply on this job?")) {
                 $.ajax({
-                    url: '{{ route('applyJob') }}',
+                    url: '{{ route("applyJob") }}',
                     type: 'post',
-                    data: {
-                        id: id
-                    },
+                    data: {id:id},
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
+                        // console.log(response);
                         window.location.href = "{{ url()->current() }}";
                     }
                 })
@@ -165,12 +159,12 @@
 
         function saveJob(id) {
             $.ajax({
-                url: '{{ route('applyJob') }}',
+                url: '{{ route("saveJob") }}',
                 type: 'post',
-                data: {id: id},
+                data: {id:id},
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
                     window.location.href = "{{ url()->current() }}";
                 }
             })
