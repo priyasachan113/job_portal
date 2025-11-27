@@ -10020,3 +10020,7 @@ footer .nav-link {
   content: '';
 }
 /* '' */
+.save-job{
+  background: #00D363 !important;
+  color: #fff !important;
+}

@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="jobs_right">
                                     <div class="apply_now">
-                                        <a class="heart_mark" href="javascript:void(0);" onclick="saveJob({{ $Job->id }})"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a class="heart_mark {{ ($count == 1) ? 'save-job' : '' }}" href="javascript:void(0);" onclick="saveJob({{ $Job->id }})"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
