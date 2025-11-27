@@ -68,8 +68,9 @@
                                     <option value="10_plus" {{ (Request::get('experience') == '10_plus') ? 'selected' : '' }}>10+ Years</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn-btn-primary">Search</button>
-                            <a href="{{ route('jobs') }}" class="btn-btn-secondary mt-3">Reset</a>
+                            <button type="submit" class="btn-btn-primary">Search</button><br>
+                            <button><a href="{{ route('jobs') }}" class="btn-btn-secondary mt-3">Reset</a></button>
+
 
                         </div>
                     </form>
@@ -94,9 +95,9 @@
                                                             <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
                                                             <span class="ps-1">{{ $Job->JobType->name }}</span>
                                                         </p>
-                                                        {{-- <p>Keywords:{{ $Job->keywords }}</p>
+                                                        <p>Keywords:{{ $Job->keywords }}</p>
                                                         <p>Category:{{ $Job->category->name }}</p>
-                                                        <p>Experience:{{ $Job->experience }}</p> --}}
+                                                        <p>Experience:{{ $Job->experience }}</p>
                                                         @if (!is_null($Job->salary))
                                                             <p class="mb-0">
                                                                 <span class="fw-bolder"><i class="fa fa-usd"></i></span>

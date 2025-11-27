@@ -74,8 +74,16 @@
                             </div>
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
-                                <a href="#" class="btn btn-secondary">Save</a>
 
+
+                                @if (Auth::check())
+                                    <a href="#" onclick= "saveJob({{ $Job->id }})"
+                                        class="btn btn-secondary">Save</a>
+
+                                    <a onclick="applyJob({{ $Job->id }})"class="btn btn-primary">Login to Save</a>
+                                @else
+                                    <a href="javascript:void(0);" class="btn btn-primary disabled">Login to Apply</a>
+                                @endif
                                 @if (Auth::check())
                                     <a onclick="applyJob({{ $Job->id }})"class="btn btn-primary">Apply</a>
                                 @else
@@ -149,10 +157,23 @@
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);
-                        window.location.href ="{{ url()->current() }}";
+                        window.location.href = "{{ url()->current() }}";
                     }
                 })
             }
+        }
+
+        function saveJob(id) {
+            $.ajax({
+                url: '{{ route('applyJob') }}',
+                type: 'post',
+                data: {id: id},
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    window.location.href = "{{ url()->current() }}";
+                }
+            })
         }
     </script>
 @endsection
