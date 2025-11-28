@@ -17,8 +17,8 @@ use Illuminate\Http\Request;
 class JobsController extends Controller
 {
     // this method will show jobs page
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+
         $categories = Category::where('status', 1)->get();
         $JobTypes = JobType::where('status', 1)->get();
 
@@ -79,25 +79,25 @@ class JobsController extends Controller
         if ($Job == null) {
             abort(404);
         }
-        $count=0;
-        if(Auth::user()){
-        $count = SavedJob::where([
-            'user_id' => Auth::user()->id,
-            'Job_id' => $id
-        ])->count();
-
+        $count = 0;
+        if (Auth::user()) {
+            $count = SavedJob::where([
+                'user_id' => Auth::user()->id,
+                'Job_id' => $id
+            ])->count();
         }
         // fetch applicants
 
-        $applications = JobApplication::where('job_id' ,$id)->get();
+        $applications = JobApplication::where('job_id', $id)->with('user')->get();
 
-        dd($applications);
+        // dd($applications);
 
-        return view('front.jobdetail', ['Job' => $Job, 'count'=> $count]);
+        return view('front.jobdetail', ['Job' => $Job, 
+                                        'count' => $count, 
+                                        'applications' => $applications]);
     }
 
-    public function applyJob(Request $request)
-    {
+    public function applyJob(Request $request){
         $id = $request->id;
         // dd($id);
 

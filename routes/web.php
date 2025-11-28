@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\JobsController;
 
 
@@ -16,6 +17,13 @@ Route::get('/jobs/detail/{id}', [JobsController::class, 'detail'])->name('jobdet
 Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob');
 Route::post('/save-job', [JobsController::class, 'saveJob'])->name('saveJob');
 
+
+Route::group(['prefix' => 'admin'], function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+
+
+});
 
 Route::group(['prefix' => 'account'], function () {
 
@@ -44,8 +52,6 @@ Route::group(['prefix' => 'account'], function () {
         Route::post('/remove-job-application', [AccountController::class, 'removeJob'])->name('account.removeJob');
         Route::get('/saved-jobs', [AccountController::class, 'savedJobs'])->name('account.savedJobs');
         Route::post('/remove-saved-job', [AccountController::class, 'removeSavedJob'])->name('account.removeSavedJob');
-
-
-
+        Route::post('/update-password', [AccountController::class, 'updatePassword'])->name('account.updatePassword');
     });
 });

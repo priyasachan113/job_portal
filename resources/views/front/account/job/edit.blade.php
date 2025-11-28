@@ -87,23 +87,23 @@
 
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Description<span class="req">*</span></label>
-                                    <textarea class="form-control" name="description" id="description" cols="5" rows="5"
-                                        placeholder="Description">{{ $job->description }}</textarea>
+                                    <form-control class="textarea" name="description" id="description" cols="5" rows="5"
+                                        placeholder="Description">{{ strip_tags($job->description) }}</form-control>
                                     <p></p>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Benefits</label>
-                                    <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits">{{ $job->benefits }}</textarea>
+                                    <form-control class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits">{{ strip_tags($job->benefits) }}</form-control>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Responsibility</label>
-                                    <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5"
-                                        placeholder="Responsibility">{{ $job->responsibility }}</textarea>
+                                    <form-control class="textarea" name="responsibility" id="responsibility" cols="5" rows="5"
+                                        placeholder="Responsibility">{{ strip_tags($job->responsibility) }}</form-control>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Qualifications</label>
-                                    <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5"
-                                        placeholder="Qualifications">{{ $job->qualifications }}</textarea>
+                                    <form-control class="textarea" name="qualifications" id="qualifications" cols="5" rows="5"
+                                        placeholder="Qualifications">{{ strip_tags($job->qualifications) }}</form-control>
                                 </div>
 
 
@@ -160,7 +160,6 @@
                             </div>
                         </div>
                     </form>
-
 
                 </div>
             </div>

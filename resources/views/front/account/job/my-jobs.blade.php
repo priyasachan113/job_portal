@@ -23,11 +23,11 @@
                         <div class="card-body card-form">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h3 class="fs-4 mb-1">Job Applied</h3>
+                                    <h3 class="fs-4 mb-1">My Jobs</h3>
                                 </div>
-                                {{-- <div style="margin-top: -10px;">
-                                    <a href="{{ route('account.createJob') }}" class="btn btn-primary">Jobs Applied</a>
-                                </div> --}}
+                                <div style="margin-top: -10px;">
+                                    <a href="{{ route('account.createJob') }}" class="btn btn-primary">Post a Job</a>
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table ">
@@ -63,7 +63,7 @@
                                                             <button href="#" class="btn" data-bs-toggle="dropdown"aria-expanded="false"><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                                <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye"aria-hidden="true"></i>View</a></li>
+                                                                <li><a class="dropdown-item" href="{{ route('jobdetail', $job->id) }}"> <i class="fa fa-eye"aria-hidden="true"></i>View</a></li>
                                                                 <li><a class="dropdown-item" href="{{ route('account.editJob', $job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i>Edit</a></li>
                                                                 <li><a class="dropdown-item"  onclick="deleteJob({{$job->id}})"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a></li>
                                                             </ul>

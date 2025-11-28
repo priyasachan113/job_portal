@@ -87,23 +87,23 @@
 
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Description<span class="req">*</span></label>
-                                    <textarea class="form-control" name="description" id="description" cols="5" rows="5"
-                                        placeholder="Description"></textarea>
+                                    <form-control class="textarea" name="description" id="description" cols="5" rows="5"
+                                        placeholder="Description"></form-control>
                                     <p></p>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Benefits</label>
-                                    <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits"></textarea>
+                                    <form-control class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits"></form-control>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Responsibility</label>
-                                    <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5"
-                                        placeholder="Responsibility"></textarea>
+                                    <form-control class="textarea" name="responsibility" id="responsibility" cols="5" rows="5"
+                                        placeholder="Responsibility"></form-control>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Qualifications</label>
-                                    <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5"
-                                        placeholder="Qualifications"></textarea>
+                                    <form-control class="textarea" name="qualifications" id="qualifications" cols="5" rows="5"
+                                        placeholder="Qualifications"></form-control>
                                 </div>
 
 
