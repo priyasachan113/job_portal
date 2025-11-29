@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\JobsController;
-
+use App\Models\User;
+use Illuminate\Routing\Controllers\Middleware;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,9 +20,10 @@ Route::post('/apply-job', [JobsController::class, 'applyJob'])->name('applyJob')
 Route::post('/save-job', [JobsController::class, 'saveJob'])->name('saveJob');
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin','middleware'=>'checkRole'], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
+        Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+        Route::get('/users{id}', [UserController::class, 'edit'])->name('admin.users.edit');
 
 
 });
