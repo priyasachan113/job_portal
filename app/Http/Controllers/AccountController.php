@@ -444,4 +444,18 @@ class AccountController extends Controller
             'status' => true,
         ]);
     }
+    public function forgotPassword(){
+
+        return view('front.account.forgot-password');
+    }
+    public function processForgotPassword(Request $request){
+        $validator = Validator::make($request->all(),[
+        'email' => 'required|email|exists:users,email'
+
+        ]);
+        if($validator->fails()){
+            return redirect()->route('account.forgotPassword')->withInput()->withErrors($validator);
+        }
+        
+    }
 }

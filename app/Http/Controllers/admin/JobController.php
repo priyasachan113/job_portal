@@ -35,7 +35,8 @@ class JobController extends Controller
             'jobTypes' => $jobTypes
         ]);
     }
-     public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         $rules = [
             'title' => 'required|min:5|max:200',
@@ -69,6 +70,10 @@ class JobController extends Controller
             $job->company_name = $request->company_name;
             $job->company_location = $request->company_location;
             $job->company_website = $request->company_website;
+
+            $job->status = $request->status;
+            $job->isFeatured = (!empty($request->isFeatured)) ? $request->isFeatured : 0;
+
             $job->save();
 
             session()->flash('success', 'Job updated successfully.');
@@ -77,12 +82,34 @@ class JobController extends Controller
                 'status' => true,
                 'errors' => []
             ]);
-            
         } else {
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()
             ]);
         }
+    }
+    public function destroy(Request $request)
+    {
+        $id = $request->id;
+        // dd($id);
+
+        $job = Job::find($id);
+
+        // dd($job);
+        if ($job == null) {
+            session()->flash('error', 'Either job deleted or not found');
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        $job->delete();
+
+
+        session()->flash('success', 'Job deleted successfully');
+        return response()->json([
+            'status' => true,
+        ]);
     }
 }

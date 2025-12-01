@@ -62,8 +62,7 @@ class JobsController extends Controller
             $Jobs = $Jobs->orderBy('created_at', 'DESC');
         }
 
-        $Jobs = $Jobs->paginate(9);
-
+        $Jobs = $Jobs->paginate(5);
         return view('front.jobs', [
             'categories' => $categories,
             'JobTypes' => $JobTypes,

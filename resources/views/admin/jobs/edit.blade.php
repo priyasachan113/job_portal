@@ -1,5 +1,4 @@
 @extends('front.layouts.app')
-
 @section('main')
     <section class="section-5 bg-2">
         <div class="container py-5">
@@ -8,7 +7,8 @@
                     <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Edit Job</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.jobs') }}">Jobs</a></li>
+                            <li class="breadcrumb-item active">Edit </li>
                         </ol>
                     </nav>
                 </div>
@@ -19,7 +19,6 @@
                 </div>
                 <div class="col-lg-9">
                     @include('front.message')
-                    
                     <form action="" method="POST" id="editJobForm" name="editJobForm">
                         <div class="card border-0 shadow mb-4 ">
                             <div class="card-body card-form p-4">
@@ -27,7 +26,8 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label for="" class="mb-2">Title<span class="req">*</span></label>
-                                        <input value="{{ $job->title }}" type="text" placeholder="Job Title" id="title" name="title" class="form-control">
+                                        <input value="{{ $job->title }}" type="text" placeholder="Job Title"
+                                            id="title" name="title" class="form-control">
                                         <p></p>
                                     </div>
                                     <div class="col-md-6  mb-4">
@@ -37,71 +37,104 @@
 
                                             @if ($categories->isNotEmpty())
                                                 @foreach ($categories as $category)
-                                                    <option {{ $job->category_id == $category->id ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option {{ $job->category_id == $category->id ? 'selected' : '' }}
+                                                        value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
                                         <p></p>
-
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label for="" class="mb-2">Job Type<span class="req">*</span></label>
-                                        <select name="jobType" id="jobType" class="form-select"> 
+                                        <select name="jobType" id="jobType" class="form-select">
                                             <option value="">Select Job Type</option>
-
                                             @if ($jobTypes->isNotEmpty())
                                                 @foreach ($jobTypes as $jobType)
-                                                    <option {{ $job->job_type_id == $jobType->id ? 'selected' : '' }} value="{{ $jobType->id }}">{{ $jobType->name }}</option>
+                                                    <option {{ $job->job_type_id == $jobType->id ? 'selected' : '' }}
+                                                        value="{{ $jobType->id }}">{{ $jobType->name }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
                                         <p></p>
-
                                     </div>
                                     <div class="col-md-6  mb-4">
                                         <label for="" class="mb-2">Vacancy<span class="req">*</span></label>
-                                        <input value="{{ $job->vacancy }}" type="number" min="1" placeholder="Vacancy" id="vacancy" name="vacancy" class="form-control">
+                                        <input value="{{ $job->vacancy }}" type="number" min="1"
+                                            placeholder="Vacancy" id="vacancy" name="vacancy" class="form-control">
                                         <p></p>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Salary</label>
-                                        <input value="{{ $job->salary }}"type="text" placeholder="Salary" id="salary" name="salary" class="form-control">
+                                        <input value="{{ $job->salary }}"type="text" placeholder="Salary" id="salary"
+                                            name="salary" class="form-control">
                                     </div>
-
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Location<span class="req">*</span></label>
-                                        <input value="{{ $job->location }}" type="text" placeholder="location" id="location" name="location" class="form-control">
+                                        <input value="{{ $job->location }}" type="text" placeholder="location"
+                                            id="location" name="location" class="form-control">
                                         <p></p>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="mb-4 col-md-6">
+                                        <div class="form-check">
+                                            <input  {{ ($job->isFeatured == 1 ) ? 'checked': '' }} class="form-check-input" type="checkbox" value="1" name="isFeatured"
+                                                id="isFeatured">
+                                            <label class="form-check-label" for="isFeatured">
+                                                Featured
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 col-md-6">
+                                        <div class="form-check-inline">
+                                            <input {{ ($job->status == 1) ? 'checked' : '' }}class="form-check-input" type="radio" value="1" name="status"
+                                                id="status-active">
+                                            <label class="form-check-label" for="status">
+                                                Active
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <input  {{ ($job->status == 0 ) ? 'checked' : '' }} class="form-check-input" type="radio" value="0" name="status"
+                                                id="status-block">
+                                            <label class="form-check-label" for="status">
+                                                Block
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Description<span class="req">*</span></label>
-                                    <form-control class="textarea" name="description" id="description" cols="5" rows="5" placeholder="Description">{{ strip_tags($job->description) }}</form-control>
+                                    <form-control class="textarea" name="description" id="description" cols="5"
+                                        rows="5"
+                                        placeholder="Description">{{ strip_tags($job->description) }}</form-control>
                                     <p></p>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Benefits</label>
-                                    <form-control class="textarea" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits">{{ strip_tags($job->benefits) }}</form-control>
+                                    <form-control class="textarea" name="benefits" id="benefits" cols="5"
+                                        rows="5"
+                                        placeholder="Benefits">{{ strip_tags($job->benefits) }}</form-control>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Responsibility</label>
-                                    <form-control class="textarea" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Responsibility">{{ strip_tags($job->responsibility) }}</form-control>
+                                    <form-control class="textarea" name="responsibility" id="responsibility"
+                                        cols="5" rows="5"
+                                        placeholder="Responsibility">{{ strip_tags($job->responsibility) }}</form-control>
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Qualifications</label>
-                                    <form-control class="textarea" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Qualifications">{{ strip_tags($job->qualifications) }}</form-control>
+                                    <form-control class="textarea" name="qualifications" id="qualifications"
+                                        cols="5" rows="5"
+                                        placeholder="Qualifications">{{ strip_tags($job->qualifications) }}</form-control>
                                 </div>
-
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Keywords</label>
-                                    <input value="{{ $job->keywords }}"type="text" placeholder="keywords" id="keywords"name="keywords" class="form-control">
+                                    <input value="{{ $job->keywords }}"type="text" placeholder="keywords"
+                                        id="keywords"name="keywords" class="form-control">
                                 </div>
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Experience <span class=req>*</span></label>
@@ -122,30 +155,30 @@
                                         </option>
                                         <option value="8" {{ $job->experience == 8 ? 'selected' : '' }}>8 Year
                                         </option>
-                                        <option value="9" {{ $job->experience == 9 ? 'selected' : '' }}>9 Year </option>
-                                        <option value="10" {{ $job->experience == 10 ? 'selected' : '' }}>10 Year</option>
-                                        <option value="10_plus" {{ $job->experience == '10_plus' ? 'selected' : '' }}>10+Year</option>
+                                        <option value="9" {{ $job->experience == 9 ? 'selected' : '' }}>9 Year
+                                        </option>
+                                        <option value="10" {{ $job->experience == 10 ? 'selected' : '' }}>10 Year
+                                        </option>
+                                        <option value="10_plus" {{ $job->experience == '10_plus' ? 'selected' : '' }}>
+                                            10+Year</option>
                                     </select>
                                     <p></p>
                                 </div>
-
-
                                 <h3 class="fs-4 mb-1 mt-5 border-top pt-5">Company Details</h3>
 
                                 <div class="row">
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Name<span class="req">*</span></label>
-                                        <input value={{ $job->company_name }} type="text" placeholder="Company Name" id="company_name" name="company_name" class="form-control">
+                                        <input value={{ $job->company_name }} type="text" placeholder="Company Name"
+                                            id="company_name" name="company_name" class="form-control">
                                         <p></p>
                                     </div>
-
                                     <div class="mb-4 col-md-6">
                                         <label for="" class="mb-2">Location</label>
                                         <input value="{{ $job->company_location }}"type="text" placeholder="Location"
                                             id="company_location" name="company_location" class="form-control">
                                     </div>
                                 </div>
-
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Website</label>
                                     <input value={{ $job->company_website }} type="text" placeholder="Website"
@@ -157,7 +190,6 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -166,18 +198,17 @@
 
 @section('customJs')
     <script type="text/javascript">
-
-     $('#editJobForm').submit(function(e) {
+        $('#editJobForm').submit(function(e) {
             e.preventDefault();
-            $("button[type='submit']").prop('disabled',true);
+
+            $("button[type='submit']").prop('disabled', true);
             $.ajax({
-                url: '{{ route("admin.jobs.update",$job->id) }}',
-                type: 'PUT',
+                url: '{{ route('admin.jobs.update', $job->id) }}',
+                type: 'put',
                 dataType: 'json',
                 data: $('#editJobForm').serializeArray(),
                 success: function(response) {
-            $("button[type='submit']").prop('disabled',false);
-
+                    $("button[type='submit']").prop('disabled', false);
                     if (response.status == true) {
 
                         $("#title").removeClass('is-invalid')
@@ -304,20 +335,6 @@
 
         });
 
-        function deleteUser(id) {
-            if (confirm("Are you sure you want to delete")) {
-                $.ajax({
-                    url: '{{ route('admin.users.destroy') }}',
-                    type: 'delete',
-                    data: {
-                        id: id
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        window.location.href = "{{ route('admin.users') }}";
-                    }
-                });
-            }
-        }
+   
     </script>
 @endsection
