@@ -24,7 +24,7 @@ Route::post('/save-job', [JobsController::class, 'saveJob'])->name('saveJob');
 
 Route::get('/forgot-password', [AccountController::class, 'forgotPassword'])->name('account.forgotPassword');
 Route::post('/process-forgot-password', [AccountController::class, 'processforgotPassword'])->name('account.processforgotPassword');
-Route::post('/reset-passsword/{token}', [AccountController::class, 'resetPassword'])->name('account.resetPassword');
+Route::get('/reset-passsword/{token}', [AccountController::class, 'resetPassword'])->name('account.resetPassword');
 
 
 Route::group(['prefix' => 'admin','middleware'=>'checkRole'], function () {

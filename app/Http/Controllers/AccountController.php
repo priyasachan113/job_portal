@@ -486,11 +486,11 @@ class AccountController extends Controller
 
         Mail::to($request->email)->send(new ResetPasswordEmail($mailData));
 
-        return redirect()->route('account.resetPassword')->with('success','Reset password email has been send to your inbox.');
-
+        return redirect()->route('account.forgotPassword')->with('success','Reset password email has been send to your inbox.');
 
 
     }
+
     public function resetPassword(){
 
     }
